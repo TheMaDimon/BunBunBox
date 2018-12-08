@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <script src="./jquery.js"></script>
+        <title>BunnyTime</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>   /*easy table styling*/ 
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 40%;
+            }
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
+		
+    </head>
+    <body>
+        <h1>Bunny Table</h1>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Zeitstempel</th> 
+                    <th>Aktion</th>                  
+                </tr>
+                </thead>
+                <tbody id="tablebody">
+                    
+                </tbody>              
+            </table>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $.get("./sth/file.txt", function (data) {  //insert path to your .txt.
+                    var stringArray = data.split("\n").reverse(); //reverse to show latest entry.
+                    console.log(stringArray);                       //test purpose only.
+                    var bdy = $('#tablebody');
+                    bdy.html("");                 
+                    $.each(stringArray, function (index, value) {
+                        var akt = value.substring(20, 21); //substring for action
+                        var dat = value.substring(0, 19);  // and timestamp. 
+                        switch (akt) {                      //the cases are strings, so they are set in "".
+                            case "0":                       
+                                akt = "Stall cleaned";
+                                break;
+                            case "4":
+                                akt = "Beasts treated";
+                                break;
+                            case "5":
+                                akt = "Beasts feeded";
+                                break;
+                        }
+                        bdy.append("<tr><td>" + dat + "</td><td>" + akt + "</td></tr>"); //.append to display in table
+                    });
+                });
+            });
+        </script>
+    </body>
+
+</html>
